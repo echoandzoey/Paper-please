@@ -355,28 +355,16 @@ function makeDecision(choice) {
 }
 
 function getOutcome(choice, profile) {
-  switch (choice) {
-    case "personal":
-      return {
-        description: "提供了个人财务指导",
-        image: "https://via.placeholder.com/150",
-      };
-    case "loan":
-      return {
-        description: "提供了长期贷款计划",
-        image: "https://via.placeholder.com/150",
-      };
-    case "nothing":
-      return {
-        description: "没有采取任何行动",
-        image: "https://via.placeholder.com/150",
-      };
-    default:
-      return {
-        description: "未知选择",
-        image: "https://via.placeholder.com/150",
-      };
+  // 直接从profile的outcomes中获取对应选择的结果
+  if (profile.outcomes && profile.outcomes[choice]) {
+    return profile.outcomes[choice];
   }
+
+  // 如果找不到对应的结果，返回默认值
+  return {
+    description: "未知结果",
+    image: profile.avatar || "https://via.placeholder.com/150",
+  };
 }
 
 function showResults() {
@@ -394,17 +382,37 @@ function showResults() {
     decisions.forEach((decision) => {
       const resultItem = document.createElement("div");
       resultItem.className = "result-item";
+
+      // 根据选择显示对应的结果
+      const outcome = decision.outcome;
+      const choiceText = getChoiceText(decision.choice);
+
       resultItem.innerHTML = `
-                <img src="${
-                  decision.outcome.image || "https://via.placeholder.com/150"
-                }" alt="${decision.profile.name}">
-                <div>
-                    <h3>${decision.profile.name}</h3>
-                    <p>${decision.outcome.description}</p>
-                </div>
-            `;
+        <div class="result-header">
+          <img src="${outcome.image}" alt="${decision.profile.name}">
+          <div class="result-title">
+            <h3>${decision.profile.name}</h3>
+            <p class="choice-made">选择: ${choiceText}</p>
+          </div>
+        </div>
+        <div class="result-description">
+          <p>${outcome.description}</p>
+        </div>
+      `;
       resultsContainer.appendChild(resultItem);
     });
+  }
+}
+function getChoiceText(choice) {
+  switch (choice) {
+    case "personal":
+      return "Personal Financial Guidance";
+    case "loan":
+      return "Long-term Loan Plan";
+    case "nothing":
+      return "No Action";
+    default:
+      return "Unknown Choice";
   }
 }
 

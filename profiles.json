@@ -2,116 +2,136 @@
   "profiles": [
     {
       "id": 1,
-      "name": "Alexei Petrov",
-      "age": 32,
-      "nationality": "Arstotzka",
-      "occupation": "Factory Worker",
-      "avatar": "images/alexei.png",
+      "name": "Sarah Chen",
+      "age": 22,
+      "nationality": "China",
+      "occupation": "University Student",
+      "avatar": "images/sarah.png",
       "documents": {
-        "passport": true,
-        "work_permit": true,
-        "vaccination": true
+        "student_id": true,
+        "academic_records": true,
+        "financial_statement": false
       },
       "outcomes": {
-        "approved": {
-          "description": "Alexei returned to his family and continued working at the factory. His children were able to attend school.",
-          "image": "images/alexei_happy.png"
+        "personal": {
+          "description": "With personal financial guidance, Sarah learned to budget effectively and found part-time work. She graduated with honors and secured a well-paying job.",
+          "image": "images/sarah.png"
         },
-        "denied": {
-          "description": "Without proper documentation, Alexei was separated from his family. His children had to work in the streets to survive.",
-          "image": "images/alexei_sad.png"
+        "loan": {
+          "description": "The long-term loan helped Sarah complete her education, but the debt burden affected her career choices. She had to take a high-paying job she didn't enjoy to repay the loan.",
+          "image": "images/sarah.png"
+        },
+        "nothing": {
+          "description": "Without financial assistance, Sarah had to drop out of university. She works multiple part-time jobs to make ends meet, struggling to save for her education.",
+          "image": "images/sarah.png"
         }
       }
     },
     {
       "id": 2,
-      "name": "Maria Gonzalez",
-      "age": 28,
-      "nationality": "Kolechia",
-      "occupation": "Teacher",
-      "avatar": "images/maria.png",
+      "name": "Michael Johnson",
+      "age": 35,
+      "nationality": "USA",
+      "occupation": "Unemployed",
+      "avatar": "images/michael.png",
       "documents": {
-        "passport": true,
-        "work_permit": false,
-        "vaccination": true
+        "resume": true,
+        "job_history": true,
+        "credit_score": false
       },
       "outcomes": {
-        "approved": {
-          "description": "Maria found work at a local school. She helped educate many children in the community.",
-          "image": "images/maria_happy.png"
+        "personal": {
+          "description": "Through financial counseling, Michael learned valuable job-seeking skills and budgeting. He found stable employment and is now saving for the future.",
+          "image": "images/michael.png"
         },
-        "denied": {
-          "description": "Without proper work authorization, Maria was forced into illegal work. She was later arrested.",
-          "image": "images/maria_sad.png"
+        "loan": {
+          "description": "The loan helped Michael start a small business, but without proper guidance, he struggled with management. The business failed, leaving him in deeper debt.",
+          "image": "images/michael.png"
+        },
+        "nothing": {
+          "description": "Without assistance, Michael remained unemployed and homeless. He struggles with depression and has difficulty finding stable work.",
+          "image": "images/michael.png"
         }
       }
     },
     {
       "id": 3,
-      "name": "Johan Schmidt",
-      "age": 45,
-      "nationality": "Impor",
-      "occupation": "Doctor",
-      "avatar": "images/johan.png",
+      "name": "Aisha Rahman",
+      "age": 28,
+      "nationality": "Bangladesh",
+      "occupation": "Small Business Owner",
+      "avatar": "images/aisha.png",
       "documents": {
-        "passport": true,
-        "work_permit": true,
-        "vaccination": false
+        "business_plan": true,
+        "market_research": true,
+        "financial_projection": true
       },
       "outcomes": {
-        "approved": {
-          "description": "Dr. Schmidt established a clinic and provided medical care to many in need.",
-          "image": "images/johan_happy.png"
+        "personal": {
+          "description": "With financial guidance, Aisha optimized her business operations and expanded successfully. Her business now employs several people in the community.",
+          "image": "images/aisha.png"
         },
-        "denied": {
-          "description": "Without proper vaccination records, Dr. Schmidt was quarantined. Many patients lost access to medical care.",
-          "image": "images/johan_sad.png"
+        "loan": {
+          "description": "The loan helped Aisha expand her business, but the high interest rates made it difficult to grow. She's working hard to repay the debt while maintaining her business.",
+          "image": "images/aisha.png"
+        },
+        "nothing": {
+          "description": "Without financial assistance, Aisha's business struggled to compete. She had to downsize and now barely makes enough to support her family.",
+          "image": "images/aisha.png"
         }
       }
     },
     {
       "id": 4,
-      "name": "Lena Volkova",
-      "age": 22,
-      "nationality": "Arstotzka",
-      "occupation": "Student",
-      "avatar": "images/lena.png",
+      "name": "David Kim",
+      "age": 45,
+      "nationality": "South Korea",
+      "occupation": "Single Parent",
+      "avatar": "images/david.png",
       "documents": {
-        "passport": false,
-        "work_permit": true,
-        "vaccination": true
+        "child_custody": true,
+        "employment_history": true,
+        "housing_status": false
       },
       "outcomes": {
-        "approved": {
-          "description": "Lena completed her studies and became a successful engineer.",
-          "image": "images/lena_happy.png"
+        "personal": {
+          "description": "Financial counseling helped David manage his expenses and find better-paying work. He's now able to provide a stable home for his children.",
+          "image": "images/david.png"
         },
-        "denied": {
-          "description": "Without proper identification, Lena was unable to continue her education. She had to work menial jobs.",
-          "image": "images/lena_sad.png"
+        "loan": {
+          "description": "The loan helped David secure housing, but the monthly payments are straining his budget. He's working extra hours to make ends meet.",
+          "image": "images/david.png"
+        },
+        "nothing": {
+          "description": "Without assistance, David and his children remained in temporary housing. The instability affected his children's education and well-being.",
+          "image": "images/david.png"
         }
       }
     },
     {
       "id": 5,
-      "name": "Carlos Mendoza",
-      "age": 38,
-      "nationality": "Republia",
-      "occupation": "Businessman",
-      "avatar": "images/carlos.png",
+      "name": "Elena Rodriguez",
+      "age": 19,
+      "nationality": "Mexico",
+      "occupation": "High School Graduate",
+      "avatar": "images/elena.png",
       "documents": {
-        "passport": true,
-        "work_permit": true,
-        "vaccination": true
+        "diploma": true,
+        "college_acceptance": true,
+        "scholarship_application": false
       },
       "outcomes": {
-        "approved": {
-          "description": "Carlos established a successful business, creating jobs for many in the community.",
-          "image": "images/carlos_happy.png"
+        "personal": {
+          "description": "Financial guidance helped Elena find scholarships and part-time work. She's now attending college while managing her finances responsibly.",
+          "image": "images/elena.png"
         },
-        "denied": {
-          "description": "Without proper authorization, Carlos lost his business opportunity. His family fell into poverty.",
-          "image": "images/carlos_sad.png"
+        "loan": {
+          "description": "The student loan allowed Elena to attend college, but the debt is significant. She's worried about her future financial stability.",
+          "image": "images/elena.png"
+        },
+        "nothing": {
+          "description": "Without financial assistance, Elena couldn't afford college. She works in retail and dreams of continuing her education someday.",
+          "image": "images/elena.png"
         }
       }
     }
