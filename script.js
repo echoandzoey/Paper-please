@@ -544,10 +544,28 @@ function makeDecision(choice) {
   showImmediateResult(profile, choice);
 }
 
+// 添加镜头抖动效果
+function screenShake() {
+  const gameContainer = document.getElementById("game-container");
+
+  // 添加抖动CSS类
+  gameContainer.classList.add("screen-shake");
+
+  // 抖动结束后移除CSS类
+  setTimeout(() => {
+    gameContainer.classList.remove("screen-shake");
+  }, 500); // 抖动持续500毫秒
+}
+
 function showImmediateResult(profile, choice) {
   const outcome = getOutcome(choice, profile);
   const choiceText = getChoiceText(choice);
   const isCorrect = choice === profile.correct_choice;
+
+  // 如果是错误决策，添加镜头抖动效果
+  if (!isCorrect) {
+    screenShake();
+  }
 
   // 创建结果展示容器
   const resultContainer = document.createElement("div");
@@ -1154,6 +1172,48 @@ style.textContent = `
 
 .btn:active::after {
   animation: ripple 600ms linear;
+}
+
+/* 屏幕抖动效果 */
+@keyframes shake {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  10% { transform: translate(-5px, -5px) rotate(-1deg); }
+  20% { transform: translate(5px, -5px) rotate(1deg); }
+  30% { transform: translate(-5px, 5px) rotate(0deg); }
+  40% { transform: translate(5px, 5px) rotate(1deg); }
+  50% { transform: translate(-5px, -5px) rotate(-1deg); }
+  60% { transform: translate(5px, -5px) rotate(0deg); }
+  70% { transform: translate(-5px, 5px) rotate(-1deg); }
+  80% { transform: translate(-5px, -5px) rotate(1deg); }
+  90% { transform: translate(5px, -5px) rotate(0deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.screen-shake {
+  animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+  transform-origin: center center;
+}
+
+/* 错误效果增强 */
+.immediate-result .wrong {
+  position: relative;
+}
+
+.immediate-result .wrong::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(192, 57, 43, 0.1);
+  pointer-events: none;
+  animation: pulse-red 1s ease-out;
+}
+
+@keyframes pulse-red {
+  0% { background-color: rgba(192, 57, 43, 0.4); }
+  100% { background-color: rgba(192, 57, 43, 0); }
 }
 `;
 document.head.appendChild(style);
