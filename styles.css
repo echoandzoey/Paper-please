@@ -15,11 +15,11 @@ body {
 }
 
 #game-container {
-  width: 800px;
-  max-width: 90%;
+  width: 900px;
+  max-width: 95%;
   background-color: #2a2a2a;
   border-radius: 10px;
-  padding: 2rem;
+  padding: 2.5rem;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
@@ -36,12 +36,62 @@ body {
   margin-bottom: 2rem;
 }
 
-.officer-profile img {
-  width: 150px;
-  height: 150px;
+.officer-profile .avatar-container {
+  width: 320px;
+  height: 320px;
+  margin: 0 auto 1.5rem;
   border-radius: 50%;
-  margin-bottom: 1rem;
-  border: 3px solid #4a4a4a;
+  padding: 10px;
+  background: linear-gradient(145deg, #333, #222);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.officer-profile .avatar-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: linear-gradient(
+    45deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  z-index: 1;
+}
+
+.officer-profile img {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 5px solid #4a4a4a;
+  transition: transform 0.3s ease;
+  object-fit: cover;
+  position: relative;
+  z-index: 0;
+}
+
+.officer-profile img:hover {
+  transform: scale(1.05);
+}
+
+.officer-profile h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #f5f5f5;
+}
+
+.officer-profile p {
+  font-size: 1.2rem;
+  color: #cccccc;
+  max-width: 80%;
+  margin: 0 auto;
+  line-height: 1.5;
 }
 
 .game-instructions {

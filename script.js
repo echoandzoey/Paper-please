@@ -190,8 +190,24 @@ function initializeGame() {
   const officerName = document.getElementById("officer-name");
   const officerDescription = document.getElementById("officer-description");
 
-  if (officerAvatar)
-    officerAvatar.src = officer.avatar || "https://via.placeholder.com/150";
+  if (officerAvatar) {
+    officerAvatar.src = officer.avatar || "https://via.placeholder.com/300";
+    // Add loading event to ensure image is displayed properly
+    officerAvatar.onload = function () {
+      console.log("官员头像加载完成");
+      // Add a subtle animation when the image loads
+      officerAvatar.style.opacity = 0;
+      setTimeout(() => {
+        officerAvatar.style.opacity = 1;
+        officerAvatar.style.transition = "opacity 0.5s ease-in-out";
+      }, 100);
+    };
+    // Add error handling
+    officerAvatar.onerror = function () {
+      console.error("官员头像加载失败，使用默认图片");
+      officerAvatar.src = "https://via.placeholder.com/300?text=Officer";
+    };
+  }
   if (officerName) officerName.textContent = officer.name || "Officer Smith";
   if (officerDescription)
     officerDescription.textContent =
