@@ -8,7 +8,7 @@ let buttonSound;
 let successSound;
 let failureSound;
 
-// 默认数据，以防JSON加载失败
+// Default data in case JSON loading fails
 const defaultOfficer = {
   name: "Officer Smith",
   position: "Immigration Officer",
@@ -155,11 +155,11 @@ const defaultProfiles = [
   },
 ];
 
-// 初始化音乐和音效控制
+// Initialize audio controls
 function initializeAudio() {
-  console.log("初始化音频控制...");
+  console.log("Initializing audio controls...");
 
-  // 获取所有音频元素
+  // Get all audio elements
   backgroundMusic = document.getElementById("background-music");
   buttonSound = document.getElementById("button-sound");
   successSound = document.getElementById("success-sound");
@@ -167,13 +167,13 @@ function initializeAudio() {
 
   const toggleMusicBtn = document.getElementById("toggle-music");
 
-  // 页面加载后立即播放背景音乐，而不是等待游戏开始
+  // Play background music immediately after page loads, don't wait for game start
   playBackgroundMusic();
 
-  // 初始化音乐图标状态
+  // Initialize music icon state
   updateMusicIcon();
 
-  // 添加按钮声音到所有游戏按钮
+  // Add button sounds to all game buttons
   addButtonSounds();
 
   if (toggleMusicBtn) {
@@ -185,18 +185,18 @@ function initializeAudio() {
       }
       updateMusicIcon();
 
-      // 播放按钮点击音效
+      // Play button click sound effect
       playButtonSound();
     });
   }
 
-  // 检查音乐文件是否存在并可以播放
+  // Check if music file exists and can be played
   backgroundMusic.addEventListener("canplaythrough", function () {
-    console.log("音乐文件已加载，可以播放");
+    console.log("Music file loaded and ready to play");
   });
 
   backgroundMusic.addEventListener("error", function () {
-    console.error("音乐文件加载失败");
+    console.error("Failed to load music file");
     const musicIcon = document.querySelector(".music-icon");
     if (musicIcon) {
       musicIcon.textContent = "🔇";
@@ -205,7 +205,7 @@ function initializeAudio() {
   });
 }
 
-// 为所有按钮添加点击音效
+// Add click sound effects to all buttons
 function addButtonSounds() {
   const allButtons = document.querySelectorAll(".btn");
 
@@ -214,41 +214,41 @@ function addButtonSounds() {
   });
 }
 
-// 播放按钮点击音效
+// Play button click sound effect
 function playButtonSound() {
   if (buttonSound) {
-    // 每次播放前重置音效，确保能够连续播放
+    // Reset sound before playing to ensure continuous playback
     buttonSound.currentTime = 0;
-    buttonSound.volume = 0.5; // 将音量设置为50%
+    buttonSound.volume = 0.5; // Set volume to 50%
     buttonSound.play().catch((error) => {
-      console.error("播放按钮音效失败:", error);
+      console.error("Failed to play button sound:", error);
     });
   }
 }
 
-// 播放正确决策音效
+// Play correct decision sound effect
 function playSuccessSound() {
   if (successSound) {
     successSound.currentTime = 0;
-    successSound.volume = 0.7; // 将音量设置为70%
+    successSound.volume = 0.7; // Set volume to 70%
     successSound.play().catch((error) => {
-      console.error("播放成功音效失败:", error);
+      console.error("Failed to play success sound:", error);
     });
   }
 }
 
-// 播放错误决策音效
+// Play wrong decision sound effect
 function playFailureSound() {
   if (failureSound) {
     failureSound.currentTime = 0;
-    failureSound.volume = 0.7; // 将音量设置为70%
+    failureSound.volume = 0.7; // Set volume to 70%
     failureSound.play().catch((error) => {
-      console.error("播放失败音效失败:", error);
+      console.error("Failed to play failure sound:", error);
     });
   }
 }
 
-// 停止音效播放
+// Stop sound effects
 function stopSoundEffects() {
   if (successSound) {
     successSound.pause();
@@ -260,27 +260,27 @@ function stopSoundEffects() {
   }
 }
 
-// 播放背景音乐
+// Play background music
 function playBackgroundMusic() {
   if (backgroundMusic) {
-    backgroundMusic.volume = 0.3; // 将背景音乐音量设置为30%
+    backgroundMusic.volume = 0.3; // Set background music volume to 30%
     backgroundMusic
       .play()
       .then(() => {
-        console.log("背景音乐开始播放");
+        console.log("Background music started playing");
         isMusicPlaying = true;
         updateMusicIcon();
       })
       .catch((error) => {
-        console.error("播放音乐失败:", error);
-        // 可能是由于用户未与页面交互导致的自动播放限制
+        console.error("Failed to play music:", error);
+        // May be due to autoplay restrictions before user interaction
         const musicIcon = document.querySelector(".music-icon");
         if (musicIcon) {
           musicIcon.textContent = "🔈";
           musicIcon.classList.add("muted");
         }
 
-        // 添加一次性点击事件，在用户首次点击页面时尝试播放音乐
+        // Add one-time click event to try playing music on first user interaction
         document.addEventListener(
           "click",
           function tryPlayMusic() {
@@ -293,20 +293,20 @@ function playBackgroundMusic() {
   }
 }
 
-// 暂停背景音乐
+// Pause background music
 function pauseBackgroundMusic() {
   if (backgroundMusic) {
     backgroundMusic.pause();
-    console.log("背景音乐已暂停");
+    console.log("Background music paused");
     isMusicPlaying = false;
   }
 }
 
-// 更新音乐图标
+// Update music icon
 function updateMusicIcon() {
   const musicIcon = document.querySelector(".music-icon");
   if (musicIcon) {
-    // 检查音乐是否正在播放
+    // Check if music is actually playing
     const isActuallyPlaying = !backgroundMusic.paused;
 
     musicIcon.textContent = isActuallyPlaying ? "🔊" : "🔈";
@@ -323,11 +323,11 @@ function updateMusicIcon() {
 // Load game data
 async function loadGameData() {
   try {
-    // 尝试加载JSON文件
+    // Try loading JSON files
     const profilesResponse = await fetch("profiles.json");
     const officerResponse = await fetch("officer.json");
 
-    // 如果请求成功，解析JSON
+    // If requests successful, parse JSON
     if (profilesResponse.ok && officerResponse.ok) {
       const profilesData = await profilesResponse.json();
       const officerData = await officerResponse.json();
@@ -335,29 +335,29 @@ async function loadGameData() {
       profiles = profilesData.profiles;
       officer = officerData.officer;
 
-      console.log("JSON数据加载成功");
+      console.log("JSON data loaded successfully");
     } else {
-      // 如果JSON加载失败，使用默认数据
-      console.log("无法加载JSON文件，使用默认数据");
+      // If JSON loading fails, use default data
+      console.log("Unable to load JSON files, using default data");
       profiles = defaultProfiles;
       officer = defaultOfficer;
     }
   } catch (error) {
-    // 如果出现错误，使用默认数据
+    // If error occurs, use default data
     console.error("Error loading game data:", error);
     profiles = defaultProfiles;
     officer = defaultOfficer;
   } finally {
-    // 无论成功与否，都初始化游戏
+    // Initialize game regardless of outcome
     initializeGame();
-    // 初始化音频控制
+    // Initialize audio controls
     initializeAudio();
   }
 }
 
 function initializeGame() {
-  console.log("初始化游戏...");
-  // 设置官员资料
+  console.log("Initializing game...");
+  // Set officer profile
   const officerAvatar = document.getElementById("officer-avatar");
   const officerName = document.getElementById("officer-name");
   const officerDescription = document.getElementById("officer-description");
@@ -366,7 +366,7 @@ function initializeGame() {
     officerAvatar.src = officer.avatar || "https://via.placeholder.com/300";
     // Add loading event to ensure image is displayed properly
     officerAvatar.onload = function () {
-      console.log("官员头像加载完成");
+      console.log("Officer avatar loaded successfully");
       // Add a subtle animation when the image loads
       officerAvatar.style.opacity = 0;
       setTimeout(() => {
@@ -376,7 +376,7 @@ function initializeGame() {
     };
     // Add error handling
     officerAvatar.onerror = function () {
-      console.error("官员头像加载失败，使用默认图片");
+      console.error("Failed to load officer avatar, using default image");
       officerAvatar.src = "https://via.placeholder.com/300?text=Officer";
     };
   }
@@ -385,7 +385,7 @@ function initializeGame() {
     officerDescription.textContent =
       officer.description || "Immigration Officer";
 
-  // 设置游戏指南
+  // Set game instructions
   const rulesList = document.getElementById("rules-list");
   if (rulesList) {
     rulesList.innerHTML = "";
@@ -399,7 +399,7 @@ function initializeGame() {
     }
   }
 
-  // 设置事件监听器
+  // Set event listeners
   const startGameBtn = document.getElementById("start-game");
   const personalBtn = document.getElementById("personal-btn");
   const loanBtn = document.getElementById("loan-btn");
@@ -408,65 +408,65 @@ function initializeGame() {
 
   if (startGameBtn) {
     startGameBtn.addEventListener("click", function () {
-      console.log("开始游戏按钮点击");
+      console.log("Start game button clicked");
       startGame();
     });
   }
 
   if (personalBtn) {
     personalBtn.addEventListener("click", function () {
-      console.log("个人财务指导按钮点击");
+      console.log("Personal financial guidance button clicked");
       makeDecision("personal");
     });
   }
 
   if (loanBtn) {
     loanBtn.addEventListener("click", function () {
-      console.log("长期贷款计划按钮点击");
+      console.log("Long-term loan plan button clicked");
       makeDecision("loan");
     });
   }
 
   if (nothingBtn) {
     nothingBtn.addEventListener("click", function () {
-      console.log("无操作按钮点击");
+      console.log("No action button clicked");
       makeDecision("nothing");
     });
   }
 
   if (playAgainBtn) {
     playAgainBtn.addEventListener("click", function () {
-      console.log("再玩一次按钮点击");
+      console.log("Play again button clicked");
       resetGame();
     });
   }
 
-  console.log("游戏初始化完成");
+  console.log("Game initialization complete");
 }
 
 function startGame() {
-  console.log("开始游戏函数已调用");
+  console.log("Start game function called");
   const introScreen = document.getElementById("intro-screen");
   const profileScreen = document.getElementById("profile-screen");
 
   if (introScreen) introScreen.classList.remove("active");
   if (profileScreen) profileScreen.classList.add("active");
 
-  // 不需要在这里播放背景音乐，因为页面加载时已经播放
+  // No need to play background music here as it's already playing on page load
 
   showCurrentProfile();
 }
 
 function showCurrentProfile() {
-  console.log("显示当前档案，索引:", currentProfileIndex);
+  console.log("Showing current profile, index:", currentProfileIndex);
   if (currentProfileIndex >= profiles.length) {
-    console.error("索引超出范围");
+    console.error("Index out of range");
     return;
   }
 
   const profile = profiles[currentProfileIndex];
 
-  // 更新档案信息
+  // Update profile information
   const applicantAvatar = document.getElementById("applicant-avatar");
   const applicantName = document.getElementById("applicant-name");
   const applicantAge = document.getElementById("applicant-age");
@@ -487,7 +487,7 @@ function showCurrentProfile() {
       profile.occupation || "Unknown"
     }`;
 
-  // 更新文件
+  // Update documents
   const documentsList = document.getElementById("documents-list");
   if (documentsList) {
     documentsList.innerHTML = "";
@@ -523,11 +523,11 @@ function showCurrentProfile() {
 }
 
 function makeDecision(choice) {
-  console.log("做出决定:", choice);
+  console.log("Making decision:", choice);
   const profile = profiles[currentProfileIndex];
   const isCorrect = choice === profile.correct_choice;
 
-  // 播放对应的音效
+  // Play corresponding sound effect
   if (isCorrect) {
     playSuccessSound();
   } else {
@@ -540,21 +540,21 @@ function makeDecision(choice) {
     outcome: getOutcome(choice, profile),
   });
 
-  // 显示当前选择的结果
+  // Show current choice result
   showImmediateResult(profile, choice);
 }
 
-// 添加镜头抖动效果
+// Add screen shake effect
 function screenShake() {
   const gameContainer = document.getElementById("game-container");
 
-  // 添加抖动CSS类
+  // Add shake CSS class
   gameContainer.classList.add("screen-shake");
 
-  // 抖动结束后移除CSS类
+  // Remove CSS class after shake ends
   setTimeout(() => {
     gameContainer.classList.remove("screen-shake");
-  }, 500); // 抖动持续500毫秒
+  }, 500); // Shake lasts 500ms
 }
 
 function showImmediateResult(profile, choice) {
@@ -562,12 +562,12 @@ function showImmediateResult(profile, choice) {
   const choiceText = getChoiceText(choice);
   const isCorrect = choice === profile.correct_choice;
 
-  // 如果是错误决策，添加镜头抖动效果
+  // Add screen shake effect for wrong decisions
   if (!isCorrect) {
     screenShake();
   }
 
-  // 创建结果展示容器
+  // Create result display container
   const resultContainer = document.createElement("div");
   resultContainer.className = "immediate-result";
   resultContainer.innerHTML = `
@@ -585,26 +585,26 @@ function showImmediateResult(profile, choice) {
         </div>
       </div>
       <div class="outcome-section ${isCorrect ? "correct" : "wrong"}">
-        <h3>你的选择: ${choiceText}</h3>
+        <h3>Your Choice: ${choiceText}</h3>
         <div class="outcome-description">
           <p>${outcome.description}</p>
         </div>
       </div>
       <div class="action-buttons">
-        <button class="btn continue-btn">继续</button>
+        <button class="btn continue-btn">Continue</button>
       </div>
     </div>
   `;
 
-  // 添加到页面
+  // Add to page
   const gameContainer = document.getElementById("game-container");
   gameContainer.appendChild(resultContainer);
 
-  // 添加继续按钮事件
+  // Add continue button event
   const continueBtn = resultContainer.querySelector(".continue-btn");
   continueBtn.addEventListener("click", function () {
-    stopSoundEffects(); // 停止结果音效播放
-    playButtonSound(); // 播放按钮点击音效
+    stopSoundEffects(); // Stop result sound effects
+    playButtonSound(); // Play button click sound
     resultContainer.remove();
     currentProfileIndex++;
     if (currentProfileIndex < profiles.length) {
@@ -616,12 +616,12 @@ function showImmediateResult(profile, choice) {
 }
 
 function getOutcome(choice, profile) {
-  // 直接从profile的outcomes中获取对应选择的结果
+  // Get result directly from profile's outcomes
   if (profile.outcomes && profile.outcomes[choice]) {
     return profile.outcomes[choice];
   }
 
-  // 如果找不到对应的结果，返回默认值
+  // Return default if no matching result found
   return {
     description: "Nothing has found",
     image: profile.avatar || "https://via.placeholder.com/150",
@@ -629,14 +629,14 @@ function getOutcome(choice, profile) {
 }
 
 function showResults() {
-  console.log("显示结果");
+  console.log("Showing results");
   const profileScreen = document.getElementById("profile-screen");
   const resultsScreen = document.getElementById("results-screen");
 
   if (profileScreen) profileScreen.classList.remove("active");
   if (resultsScreen) resultsScreen.classList.add("active");
 
-  // 计算正确率统计
+  // Calculate accuracy statistics
   let correctCount = 0;
   const totalCount = decisions.length;
 
@@ -648,7 +648,7 @@ function showResults() {
 
   const correctRate = Math.round((correctCount / totalCount) * 100);
 
-  // 更新结果屏幕标题
+  // Update results screen title
   const resultsTitle = document.querySelector("#results-screen h2");
   if (resultsTitle) {
     resultsTitle.innerHTML = `End of Shift Report <span class="accuracy-rate">(Accuracy: ${correctCount}/${totalCount} - ${correctRate}%)</span>`;
@@ -656,30 +656,31 @@ function showResults() {
 
   const resultsContainer = document.getElementById("results-container");
   if (resultsContainer) {
-    // 清空容器内容
+    // Clear container content
     resultsContainer.innerHTML = "";
 
-    // 添加总体评估
+    // Add overall assessment
     const assessmentElement = document.createElement("div");
     assessmentElement.className = "accuracy-assessment";
 
     let assessmentMessage = "";
     if (correctRate >= 80) {
       assessmentMessage =
-        "优秀的财务官员！你的决策为大多数申请人带来了合适的援助。";
+        "Excellent financial officer! Your decisions provided appropriate assistance to most applicants.";
     } else if (correctRate >= 60) {
       assessmentMessage =
-        "合格的财务官员。你的大部分决策是合理的，但仍有改进空间。";
+        "Qualified financial officer. Most of your decisions were reasonable, but there's room for improvement.";
     } else if (correctRate >= 40) {
-      assessmentMessage = "尚可的财务官员。你需要更加仔细地评估申请人的需求。";
+      assessmentMessage =
+        "Passable financial officer. You need to evaluate applicants' needs more carefully.";
     } else {
       assessmentMessage =
-        "不合格的财务官员。你的大多数决策无法满足申请人的真实需求。";
+        "Unqualified financial officer. Most of your decisions failed to meet applicants' real needs.";
     }
 
     assessmentElement.innerHTML = `
       <div class="assessment-header">
-        <h3>综合评估</h3>
+        <h3>Overall Assessment</h3>
         <div class="accuracy-badge ${getAccuracyClass(
           correctRate
         )}">${correctRate}%</div>
@@ -689,17 +690,17 @@ function showResults() {
 
     resultsContainer.appendChild(assessmentElement);
 
-    // 添加决策详情标题
+    // Add decision details title
     const decisionsHeader = document.createElement("h3");
     decisionsHeader.className = "decisions-header";
-    decisionsHeader.textContent = "个人决策详情";
+    decisionsHeader.textContent = "Individual Decision Details";
     resultsContainer.appendChild(decisionsHeader);
 
     decisions.forEach((decision) => {
       const resultItem = document.createElement("div");
       resultItem.className = "result-item";
 
-      // 根据选择显示对应的结果
+      // Show result based on choice
       const outcome = decision.outcome;
       const choiceText = getChoiceText(decision.choice);
       const isCorrect = decision.choice === decision.profile.correct_choice;
@@ -710,13 +711,13 @@ function showResults() {
           <img src="${outcome.image}" alt="${decision.profile.name}">
           <div class="result-title">
             <h3>${decision.profile.name}</h3>
-            <p class="choice-made">你的选择: 
+            <p class="choice-made">Your Choice: 
               <span class="${
                 isCorrect ? "correct-choice" : "wrong-choice"
               }">${choiceText}</span>
               ${
                 !isCorrect
-                  ? `<span class="correct-choice-note">(正确选择应为: ${correctChoiceText})</span>`
+                  ? `<span class="correct-choice-note">(Correct choice should be: ${correctChoiceText})</span>`
                   : ""
               }
             </p>
@@ -734,7 +735,7 @@ function showResults() {
   }
 }
 
-// 根据正确率返回对应的CSS类名
+// Return CSS class based on accuracy rate
 function getAccuracyClass(rate) {
   if (rate >= 80) return "excellent";
   if (rate >= 60) return "good";
@@ -756,7 +757,7 @@ function getChoiceText(choice) {
 }
 
 function resetGame() {
-  console.log("重置游戏");
+  console.log("Resetting game");
   currentProfileIndex = 0;
   decisions = [];
 
@@ -766,28 +767,28 @@ function resetGame() {
   if (resultsScreen) resultsScreen.classList.remove("active");
   if (introScreen) introScreen.classList.add("active");
 
-  // 重新开始播放背景音乐
+  // Restart background music
   if (backgroundMusic) {
-    // 如果音乐被暂停了，重新播放
+    // If music was paused, play again
     if (!isMusicPlaying) {
       playBackgroundMusic();
     } else {
-      // 如果音乐正在播放，重新开始
+      // If music is playing, restart from beginning
       backgroundMusic.currentTime = 0;
     }
   }
 
-  // 播放按钮音效
+  // Play button sound effect
   playButtonSound();
 }
 
-// 页面加载时启动游戏
+// Start game when page loads
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("页面已加载，正在加载游戏数据...");
+  console.log("Page loaded, loading game data...");
   loadGameData();
 });
 
-// 更新 CSS 样式
+// Update CSS styles
 const style = document.createElement("style");
 style.textContent = `
 .immediate-result {
@@ -831,7 +832,7 @@ style.textContent = `
   flex: 1;
 }
 
-/* 决策结果图标 */
+/* Decision result icon */
 .decision-result-icon {
   position: absolute;
   top: -15px;
@@ -911,7 +912,7 @@ style.textContent = `
   transform: translateY(-2px);
 }
 
-/* 正确率统计样式 */
+/* Accuracy rate statistics styles */
 .accuracy-rate {
   font-size: 0.9rem;
   opacity: 0.9;
