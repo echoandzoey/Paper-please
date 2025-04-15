@@ -3,92 +3,318 @@ let decisions = [];
 let profiles = [];
 let officer = {};
 
+// 默认数据，以防JSON加载失败
+const defaultOfficer = {
+  name: "Officer Smith",
+  position: "Immigration Officer",
+  department: "Border Control",
+  location: "Arstotzka Border Checkpoint",
+  avatar: "https://via.placeholder.com/150",
+  description:
+    "You are Officer Smith, a dedicated immigration officer at the Arstotzka Border Checkpoint. Your duty is to carefully examine each applicant's documents and make decisions that will affect their lives forever. Remember: Glory to Arstotzka!",
+  game_instructions: {
+    rules: [
+      "All applicants must have a valid passport",
+      "All applicants must have a valid work permit",
+      "All applicants must have up-to-date vaccination records",
+      "Make your decisions carefully - each choice has consequences",
+    ],
+  },
+};
+
+const defaultProfiles = [
+  {
+    id: 1,
+    name: "Alexei Petrov",
+    age: 32,
+    nationality: "Arstotzka",
+    occupation: "Factory Worker",
+    avatar: "https://via.placeholder.com/150",
+    documents: {
+      passport: true,
+      work_permit: true,
+      vaccination: true,
+    },
+    outcomes: {
+      approved: {
+        description:
+          "Alexei returned to his family and continued working at the factory. His children were able to attend school.",
+        image: "https://via.placeholder.com/150",
+      },
+      denied: {
+        description:
+          "Without proper documentation, Alexei was separated from his family. His children had to work in the streets to survive.",
+        image: "https://via.placeholder.com/150",
+      },
+    },
+  },
+  {
+    id: 2,
+    name: "Maria Gonzalez",
+    age: 28,
+    nationality: "Kolechia",
+    occupation: "Teacher",
+    avatar: "https://via.placeholder.com/150",
+    documents: {
+      passport: true,
+      work_permit: false,
+      vaccination: true,
+    },
+    outcomes: {
+      approved: {
+        description:
+          "Maria found work at a local school. She helped educate many children in the community.",
+        image: "https://via.placeholder.com/150",
+      },
+      denied: {
+        description:
+          "Without proper work authorization, Maria was forced into illegal work. She was later arrested.",
+        image: "https://via.placeholder.com/150",
+      },
+    },
+  },
+  {
+    id: 3,
+    name: "Johan Schmidt",
+    age: 45,
+    nationality: "Impor",
+    occupation: "Doctor",
+    avatar: "https://via.placeholder.com/150",
+    documents: {
+      passport: true,
+      work_permit: true,
+      vaccination: false,
+    },
+    outcomes: {
+      approved: {
+        description:
+          "Dr. Schmidt established a clinic and provided medical care to many in need.",
+        image: "https://via.placeholder.com/150",
+      },
+      denied: {
+        description:
+          "Without proper vaccination records, Dr. Schmidt was quarantined. Many patients lost access to medical care.",
+        image: "https://via.placeholder.com/150",
+      },
+    },
+  },
+  {
+    id: 4,
+    name: "Lena Volkova",
+    age: 22,
+    nationality: "Arstotzka",
+    occupation: "Student",
+    avatar: "https://via.placeholder.com/150",
+    documents: {
+      passport: false,
+      work_permit: true,
+      vaccination: true,
+    },
+    outcomes: {
+      approved: {
+        description:
+          "Lena completed her studies and became a successful engineer.",
+        image: "https://via.placeholder.com/150",
+      },
+      denied: {
+        description:
+          "Without proper identification, Lena was unable to continue her education. She had to work menial jobs.",
+        image: "https://via.placeholder.com/150",
+      },
+    },
+  },
+  {
+    id: 5,
+    name: "Carlos Mendoza",
+    age: 38,
+    nationality: "Republia",
+    occupation: "Businessman",
+    avatar: "https://via.placeholder.com/150",
+    documents: {
+      passport: true,
+      work_permit: true,
+      vaccination: true,
+    },
+    outcomes: {
+      approved: {
+        description:
+          "Carlos established a successful business, creating jobs for many in the community.",
+        image: "https://via.placeholder.com/150",
+      },
+      denied: {
+        description:
+          "Without proper authorization, Carlos lost his business opportunity. His family fell into poverty.",
+        image: "https://via.placeholder.com/150",
+      },
+    },
+  },
+];
+
 // Load game data
 async function loadGameData() {
   try {
-    const [profilesResponse, officerResponse] = await Promise.all([
-      fetch("profiles.json"),
-      fetch("officer.json"),
-    ]);
+    // 尝试加载JSON文件
+    const profilesResponse = await fetch("profiles.json");
+    const officerResponse = await fetch("officer.json");
 
-    const profilesData = await profilesResponse.json();
-    const officerData = await officerResponse.json();
+    // 如果请求成功，解析JSON
+    if (profilesResponse.ok && officerResponse.ok) {
+      const profilesData = await profilesResponse.json();
+      const officerData = await officerResponse.json();
 
-    profiles = profilesData.profiles;
-    officer = officerData.officer;
+      profiles = profilesData.profiles;
+      officer = officerData.officer;
 
-    initializeGame();
+      console.log("JSON数据加载成功");
+    } else {
+      // 如果JSON加载失败，使用默认数据
+      console.log("无法加载JSON文件，使用默认数据");
+      profiles = defaultProfiles;
+      officer = defaultOfficer;
+    }
   } catch (error) {
+    // 如果出现错误，使用默认数据
     console.error("Error loading game data:", error);
+    profiles = defaultProfiles;
+    officer = defaultOfficer;
+  } finally {
+    // 无论成功与否，都初始化游戏
+    initializeGame();
   }
 }
 
 function initializeGame() {
-  // Set up officer profile
-  document.getElementById("officer-avatar").src = officer.avatar;
-  document.getElementById("officer-name").textContent = officer.name;
-  document.getElementById("officer-description").textContent =
-    officer.description;
+  console.log("初始化游戏...");
+  // 设置官员资料
+  const officerAvatar = document.getElementById("officer-avatar");
+  const officerName = document.getElementById("officer-name");
+  const officerDescription = document.getElementById("officer-description");
 
-  // Set up game instructions
+  if (officerAvatar)
+    officerAvatar.src = officer.avatar || "https://via.placeholder.com/150";
+  if (officerName) officerName.textContent = officer.name || "Officer Smith";
+  if (officerDescription)
+    officerDescription.textContent =
+      officer.description || "Immigration Officer";
+
+  // 设置游戏指南
   const rulesList = document.getElementById("rules-list");
-  officer.game_instructions.rules.forEach((rule) => {
-    const li = document.createElement("li");
-    li.textContent = rule;
-    rulesList.appendChild(li);
-  });
+  if (rulesList) {
+    rulesList.innerHTML = "";
 
-  // Set up event listeners
-  document.getElementById("start-game").addEventListener("click", startGame);
-  document
-    .getElementById("approve-btn")
-    .addEventListener("click", () => makeDecision(true));
-  document
-    .getElementById("deny-btn")
-    .addEventListener("click", () => makeDecision(false));
-  document.getElementById("play-again").addEventListener("click", resetGame);
+    if (officer.game_instructions && officer.game_instructions.rules) {
+      officer.game_instructions.rules.forEach((rule) => {
+        const li = document.createElement("li");
+        li.textContent = rule;
+        rulesList.appendChild(li);
+      });
+    }
+  }
+
+  // 设置事件监听器
+  const startGameBtn = document.getElementById("start-game");
+  const approveBtn = document.getElementById("approve-btn");
+  const denyBtn = document.getElementById("deny-btn");
+  const playAgainBtn = document.getElementById("play-again");
+
+  if (startGameBtn) {
+    startGameBtn.addEventListener("click", function () {
+      console.log("开始游戏按钮点击");
+      startGame();
+    });
+  }
+
+  if (approveBtn) {
+    approveBtn.addEventListener("click", function () {
+      console.log("批准按钮点击");
+      makeDecision(true);
+    });
+  }
+
+  if (denyBtn) {
+    denyBtn.addEventListener("click", function () {
+      console.log("拒绝按钮点击");
+      makeDecision(false);
+    });
+  }
+
+  if (playAgainBtn) {
+    playAgainBtn.addEventListener("click", function () {
+      console.log("再玩一次按钮点击");
+      resetGame();
+    });
+  }
+
+  console.log("游戏初始化完成");
 }
 
 function startGame() {
-  document.getElementById("intro-screen").classList.remove("active");
-  document.getElementById("profile-screen").classList.add("active");
+  console.log("开始游戏函数已调用");
+  const introScreen = document.getElementById("intro-screen");
+  const profileScreen = document.getElementById("profile-screen");
+
+  if (introScreen) introScreen.classList.remove("active");
+  if (profileScreen) profileScreen.classList.add("active");
+
   showCurrentProfile();
 }
 
 function showCurrentProfile() {
+  console.log("显示当前档案，索引:", currentProfileIndex);
+  if (currentProfileIndex >= profiles.length) {
+    console.error("索引超出范围");
+    return;
+  }
+
   const profile = profiles[currentProfileIndex];
-  const profileScreen = document.getElementById("profile-screen");
 
-  // Update profile information
-  document.getElementById("applicant-avatar").src = profile.avatar;
-  document.getElementById("applicant-name").textContent = profile.name;
-  document.getElementById("applicant-age").textContent = `Age: ${profile.age}`;
-  document.getElementById(
-    "applicant-nationality"
-  ).textContent = `Nationality: ${profile.nationality}`;
-  document.getElementById(
-    "applicant-occupation"
-  ).textContent = `Occupation: ${profile.occupation}`;
+  // 更新档案信息
+  const applicantAvatar = document.getElementById("applicant-avatar");
+  const applicantName = document.getElementById("applicant-name");
+  const applicantAge = document.getElementById("applicant-age");
+  const applicantNationality = document.getElementById("applicant-nationality");
+  const applicantOccupation = document.getElementById("applicant-occupation");
 
-  // Update documents
+  if (applicantAvatar)
+    applicantAvatar.src = profile.avatar || "https://via.placeholder.com/150";
+  if (applicantName) applicantName.textContent = profile.name || "Unknown";
+  if (applicantAge)
+    applicantAge.textContent = `Age: ${profile.age || "Unknown"}`;
+  if (applicantNationality)
+    applicantNationality.textContent = `Nationality: ${
+      profile.nationality || "Unknown"
+    }`;
+  if (applicantOccupation)
+    applicantOccupation.textContent = `Occupation: ${
+      profile.occupation || "Unknown"
+    }`;
+
+  // 更新文件
   const documentsList = document.getElementById("documents-list");
-  documentsList.innerHTML = "";
+  if (documentsList) {
+    documentsList.innerHTML = "";
 
-  Object.entries(profile.documents).forEach(([doc, valid]) => {
-    const docItem = document.createElement("div");
-    docItem.className = `document-item ${valid ? "valid" : "invalid"}`;
-    docItem.innerHTML = `
-            <span>${
-              doc.charAt(0).toUpperCase() + doc.slice(1).replace("_", " ")
-            }:</span>
-            <span>${valid ? "✓ Valid" : "✗ Invalid"}</span>
-        `;
-    documentsList.appendChild(docItem);
-  });
+    if (profile.documents) {
+      Object.entries(profile.documents).forEach(([doc, valid]) => {
+        const docItem = document.createElement("div");
+        docItem.className = `document-item ${valid ? "valid" : "invalid"}`;
+        docItem.innerHTML = `
+                    <span>${
+                      doc.charAt(0).toUpperCase() +
+                      doc.slice(1).replace("_", " ")
+                    }:</span>
+                    <span>${valid ? "✓ Valid" : "✗ Invalid"}</span>
+                `;
+        documentsList.appendChild(docItem);
+      });
+    }
+  }
 }
 
 function makeDecision(approved) {
+  console.log("做出决定:", approved ? "批准" : "拒绝");
   const profile = profiles[currentProfileIndex];
+
   decisions.push({
     profile: profile,
     approved: approved,
@@ -105,32 +331,48 @@ function makeDecision(approved) {
 }
 
 function showResults() {
-  document.getElementById("profile-screen").classList.remove("active");
-  document.getElementById("results-screen").classList.add("active");
+  console.log("显示结果");
+  const profileScreen = document.getElementById("profile-screen");
+  const resultsScreen = document.getElementById("results-screen");
+
+  if (profileScreen) profileScreen.classList.remove("active");
+  if (resultsScreen) resultsScreen.classList.add("active");
 
   const resultsContainer = document.getElementById("results-container");
-  resultsContainer.innerHTML = "";
+  if (resultsContainer) {
+    resultsContainer.innerHTML = "";
 
-  decisions.forEach((decision) => {
-    const resultItem = document.createElement("div");
-    resultItem.className = "result-item";
-    resultItem.innerHTML = `
-            <img src="${decision.outcome.image}" alt="${decision.profile.name}">
-            <div>
-                <h3>${decision.profile.name}</h3>
-                <p>${decision.outcome.description}</p>
-            </div>
-        `;
-    resultsContainer.appendChild(resultItem);
-  });
+    decisions.forEach((decision) => {
+      const resultItem = document.createElement("div");
+      resultItem.className = "result-item";
+      resultItem.innerHTML = `
+                <img src="${
+                  decision.outcome.image || "https://via.placeholder.com/150"
+                }" alt="${decision.profile.name}">
+                <div>
+                    <h3>${decision.profile.name}</h3>
+                    <p>${decision.outcome.description}</p>
+                </div>
+            `;
+      resultsContainer.appendChild(resultItem);
+    });
+  }
 }
 
 function resetGame() {
+  console.log("重置游戏");
   currentProfileIndex = 0;
   decisions = [];
-  document.getElementById("results-screen").classList.remove("active");
-  document.getElementById("intro-screen").classList.add("active");
+
+  const resultsScreen = document.getElementById("results-screen");
+  const introScreen = document.getElementById("intro-screen");
+
+  if (resultsScreen) resultsScreen.classList.remove("active");
+  if (introScreen) introScreen.classList.add("active");
 }
 
-// Start the game when the page loads
-document.addEventListener("DOMContentLoaded", loadGameData);
+// 页面加载时启动游戏
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("页面已加载，正在加载游戏数据...");
+  loadGameData();
+});
