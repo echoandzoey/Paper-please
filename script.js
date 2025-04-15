@@ -213,8 +213,9 @@ function initializeGame() {
 
   // 设置事件监听器
   const startGameBtn = document.getElementById("start-game");
-  const approveBtn = document.getElementById("approve-btn");
-  const denyBtn = document.getElementById("deny-btn");
+  const personalBtn = document.getElementById("personal-btn");
+  const loanBtn = document.getElementById("loan-btn");
+  const nothingBtn = document.getElementById("nothing-btn");
   const playAgainBtn = document.getElementById("play-again");
 
   if (startGameBtn) {
@@ -224,17 +225,24 @@ function initializeGame() {
     });
   }
 
-  if (approveBtn) {
-    approveBtn.addEventListener("click", function () {
-      console.log("批准按钮点击");
-      makeDecision(true);
+  if (personalBtn) {
+    personalBtn.addEventListener("click", function () {
+      console.log("个人财务指导按钮点击");
+      makeDecision("personal");
     });
   }
 
-  if (denyBtn) {
-    denyBtn.addEventListener("click", function () {
-      console.log("拒绝按钮点击");
-      makeDecision(false);
+  if (loanBtn) {
+    loanBtn.addEventListener("click", function () {
+      console.log("长期贷款计划按钮点击");
+      makeDecision("loan");
+    });
+  }
+
+  if (nothingBtn) {
+    nothingBtn.addEventListener("click", function () {
+      console.log("无操作按钮点击");
+      makeDecision("nothing");
     });
   }
 
@@ -311,14 +319,14 @@ function showCurrentProfile() {
   }
 }
 
-function makeDecision(approved) {
-  console.log("做出决定:", approved ? "批准" : "拒绝");
+function makeDecision(choice) {
+  console.log("做出决定:", choice);
   const profile = profiles[currentProfileIndex];
 
   decisions.push({
     profile: profile,
-    approved: approved,
-    outcome: approved ? profile.outcomes.approved : profile.outcomes.denied,
+    choice: choice,
+    outcome: getOutcome(choice, profile),
   });
 
   currentProfileIndex++;
@@ -327,6 +335,31 @@ function makeDecision(approved) {
     showCurrentProfile();
   } else {
     showResults();
+  }
+}
+
+function getOutcome(choice, profile) {
+  switch (choice) {
+    case "personal":
+      return {
+        description: "提供了个人财务指导",
+        image: "https://via.placeholder.com/150",
+      };
+    case "loan":
+      return {
+        description: "提供了长期贷款计划",
+        image: "https://via.placeholder.com/150",
+      };
+    case "nothing":
+      return {
+        description: "没有采取任何行动",
+        image: "https://via.placeholder.com/150",
+      };
+    default:
+      return {
+        description: "未知选择",
+        image: "https://via.placeholder.com/150",
+      };
   }
 }
 
