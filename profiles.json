@@ -1,0 +1,119 @@
+{
+  "profiles": [
+    {
+      "id": 1,
+      "name": "Alexei Petrov",
+      "age": 32,
+      "nationality": "Arstotzka",
+      "occupation": "Factory Worker",
+      "avatar": "images/alexei.png",
+      "documents": {
+        "passport": true,
+        "work_permit": true,
+        "vaccination": true
+      },
+      "outcomes": {
+        "approved": {
+          "description": "Alexei returned to his family and continued working at the factory. His children were able to attend school.",
+          "image": "images/alexei_happy.png"
+        },
+        "denied": {
+          "description": "Without proper documentation, Alexei was separated from his family. His children had to work in the streets to survive.",
+          "image": "images/alexei_sad.png"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name": "Maria Gonzalez",
+      "age": 28,
+      "nationality": "Kolechia",
+      "occupation": "Teacher",
+      "avatar": "images/maria.png",
+      "documents": {
+        "passport": true,
+        "work_permit": false,
+        "vaccination": true
+      },
+      "outcomes": {
+        "approved": {
+          "description": "Maria found work at a local school. She helped educate many children in the community.",
+          "image": "images/maria_happy.png"
+        },
+        "denied": {
+          "description": "Without proper work authorization, Maria was forced into illegal work. She was later arrested.",
+          "image": "images/maria_sad.png"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "name": "Johan Schmidt",
+      "age": 45,
+      "nationality": "Impor",
+      "occupation": "Doctor",
+      "avatar": "images/johan.png",
+      "documents": {
+        "passport": true,
+        "work_permit": true,
+        "vaccination": false
+      },
+      "outcomes": {
+        "approved": {
+          "description": "Dr. Schmidt established a clinic and provided medical care to many in need.",
+          "image": "images/johan_happy.png"
+        },
+        "denied": {
+          "description": "Without proper vaccination records, Dr. Schmidt was quarantined. Many patients lost access to medical care.",
+          "image": "images/johan_sad.png"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "name": "Lena Volkova",
+      "age": 22,
+      "nationality": "Arstotzka",
+      "occupation": "Student",
+      "avatar": "images/lena.png",
+      "documents": {
+        "passport": false,
+        "work_permit": true,
+        "vaccination": true
+      },
+      "outcomes": {
+        "approved": {
+          "description": "Lena completed her studies and became a successful engineer.",
+          "image": "images/lena_happy.png"
+        },
+        "denied": {
+          "description": "Without proper identification, Lena was unable to continue her education. She had to work menial jobs.",
+          "image": "images/lena_sad.png"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "name": "Carlos Mendoza",
+      "age": 38,
+      "nationality": "Republia",
+      "occupation": "Businessman",
+      "avatar": "images/carlos.png",
+      "documents": {
+        "passport": true,
+        "work_permit": true,
+        "vaccination": true
+      },
+      "outcomes": {
+        "approved": {
+          "description": "Carlos established a successful business, creating jobs for many in the community.",
+          "image": "images/carlos_happy.png"
+        },
+        "denied": {
+          "description": "Without proper authorization, Carlos lost his business opportunity. His family fell into poverty.",
+          "image": "images/carlos_sad.png"
+        }
+      }
+    }
+  ]
+}

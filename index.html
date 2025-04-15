@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Papers, Please - Immigration Officer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="game-container">
+      <!-- Introduction Screen -->
+      <div id="intro-screen" class="screen active">
+        <div class="officer-profile">
+          <img id="officer-avatar" src="" alt="Officer Avatar" />
+          <h1 id="officer-name"></h1>
+          <p id="officer-description"></p>
+        </div>
+        <div class="game-instructions">
+          <h2>Game Instructions</h2>
+          <div id="rules-list"></div>
+          <button id="start-game" class="btn">Begin Your Shift</button>
+        </div>
+      </div>
+
+      <!-- Profile Screen -->
+      <div id="profile-screen" class="screen">
+        <div class="profile-container">
+          <div class="profile-header">
+            <img id="applicant-avatar" src="" alt="Applicant Avatar" />
+            <div class="profile-info">
+              <h2 id="applicant-name"></h2>
+              <p id="applicant-age"></p>
+              <p id="applicant-nationality"></p>
+              <p id="applicant-occupation"></p>
+            </div>
+          </div>
+          <div class="documents">
+            <h3>Documents</h3>
+            <div id="documents-list"></div>
+          </div>
+          <div class="actions">
+            <button id="approve-btn" class="btn approve">Approve</button>
+            <button id="deny-btn" class="btn deny">Deny</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Screen -->
+      <div id="results-screen" class="screen">
+        <h2>End of Shift Report</h2>
+        <div id="results-container"></div>
+        <button id="play-again" class="btn">Play Again</button>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

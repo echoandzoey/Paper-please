@@ -1,0 +1,159 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#game-container {
+  width: 800px;
+  max-width: 90%;
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.officer-profile {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.officer-profile img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  border: 3px solid #4a4a4a;
+}
+
+.game-instructions {
+  background-color: #3a3a3a;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+#rules-list {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.profile-container {
+  background-color: #3a3a3a;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.profile-header {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.profile-header img {
+  width: 120px;
+  height: 120px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.documents {
+  background-color: #4a4a4a;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn {
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.approve {
+  background-color: #4caf50;
+  color: white;
+}
+
+.deny {
+  background-color: #f44336;
+  color: white;
+}
+
+#start-game,
+#play-again {
+  background-color: #2196f3;
+  color: white;
+  margin-top: 1rem;
+}
+
+#results-container {
+  margin-top: 2rem;
+}
+
+.result-item {
+  background-color: #3a3a3a;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.result-item img {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.document-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.document-item.valid {
+  color: #4caf50;
+}
+
+.document-item.invalid {
+  color: #f44336;
+}

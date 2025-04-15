@@ -1,0 +1,24 @@
+{
+  "officer": {
+    "name": "Officer Smith",
+    "position": "Immigration Officer",
+    "department": "Border Control",
+    "location": "Arstotzka Border Checkpoint",
+    "avatar": "images/officer.png",
+    "description": "You are Officer Smith, a dedicated immigration officer at the Arstotzka Border Checkpoint. Your duty is to carefully examine each applicant's documents and make decisions that will affect their lives forever. Remember: Glory to Arstotzka!"
+  },
+  "game_instructions": {
+    "objective": "Review each applicant's documents and decide whether to approve or deny their entry based on the following criteria:",
+    "rules": [
+      "All applicants must have a valid passport",
+      "All applicants must have a valid work permit",
+      "All applicants must have up-to-date vaccination records",
+      "Make your decisions carefully - each choice has consequences"
+    ],
+    "controls": [
+      "Click 'Approve' to grant entry",
+      "Click 'Deny' to reject entry",
+      "Click 'Next' to proceed to the next applicant"
+    ]
+  }
+}
