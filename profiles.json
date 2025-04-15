@@ -8,9 +8,11 @@
       "occupation": "University Student",
       "avatar": "images/sarah.png",
       "documents": {
-        "student_id": true,
-        "academic_records": true,
-        "financial_statement": false
+        "income_level": "Part-time job: $800/month, irregular tutoring income",
+        "current_debt": "Student loans: $15,000 remaining, currently deferred",
+        "assets_savings": "Savings: $1,200. No property or investments",
+        "credit_history": "Credit score: 620. Limited credit history due to age",
+        "loan_purpose": "Education: $20,000 needed to complete final year of university"
       },
       "correct_choice": "personal",
       "outcomes": {
@@ -36,9 +38,11 @@
       "occupation": "Unemployed",
       "avatar": "images/michael.png",
       "documents": {
-        "resume": true,
-        "job_history": true,
-        "credit_score": false
+        "income_level": "Unemployment benefits: $1,200/month, ending in 2 months",
+        "current_debt": "Credit card debt: $8,500 with 22% APR. Car loan: $4,000 remaining",
+        "assets_savings": "Savings depleted. Owns a 10-year-old car valued at $3,000",
+        "credit_history": "Credit score: 580. Two recent missed payments due to job loss",
+        "loan_purpose": "Small business startup: $25,000 to open a home repair service"
       },
       "correct_choice": "personal",
       "outcomes": {
@@ -64,9 +68,11 @@
       "occupation": "Small Business Owner",
       "avatar": "images/aisha.png",
       "documents": {
-        "business_plan": true,
-        "market_research": true,
-        "financial_projection": true
+        "income_level": "Small grocery store: $3,000-$4,500/month, seasonal fluctuations",
+        "current_debt": "Business loan: $12,000 remaining, monthly payment $650",
+        "assets_savings": "Savings: $8,000. Store inventory valued at $15,000. No property",
+        "credit_history": "Credit score: 720. Perfect payment history for 5 years",
+        "loan_purpose": "Business expansion: $30,000 for inventory and second location down payment"
       },
       "correct_choice": "loan",
       "outcomes": {
@@ -92,9 +98,11 @@
       "occupation": "Single Parent",
       "avatar": "images/david.png",
       "documents": {
-        "child_custody": true,
-        "employment_history": true,
-        "housing_status": false
+        "income_level": "Office manager: $3,800/month, stable employment for 2 years",
+        "current_debt": "Medical debt: $25,000 from children's treatments. Personal loan: $5,000",
+        "assets_savings": "Savings: $2,200. Retirement account: $18,000. No property",
+        "credit_history": "Credit score: 640. One late payment in last year due to medical expenses",
+        "loan_purpose": "Housing: $50,000 for down payment on a small apartment for family stability"
       },
       "correct_choice": "loan",
       "outcomes": {
@@ -120,9 +128,11 @@
       "occupation": "High School Graduate",
       "avatar": "images/elena.png",
       "documents": {
-        "diploma": true,
-        "college_acceptance": true,
-        "scholarship_application": false
+        "income_level": "Retail job: $1,200/month, working 30 hours/week",
+        "current_debt": "No current debt, but no established credit either",
+        "assets_savings": "Savings: $2,500 saved for college. No other assets",
+        "credit_history": "Credit score: Unavailable. No credit history established yet",
+        "loan_purpose": "Education: $15,000 needed for first year of college tuition and expenses"
       },
       "correct_choice": "personal",
       "outcomes": {

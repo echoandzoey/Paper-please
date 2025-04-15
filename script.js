@@ -319,17 +319,30 @@ function showCurrentProfile() {
     documentsList.innerHTML = "";
 
     if (profile.documents) {
-      Object.entries(profile.documents).forEach(([doc, valid]) => {
-        const docItem = document.createElement("div");
-        docItem.className = `document-item ${valid ? "valid" : "invalid"}`;
-        docItem.innerHTML = `
-                    <span>${
-                      doc.charAt(0).toUpperCase() +
-                      doc.slice(1).replace("_", " ")
-                    }:</span>
-                    <span>${valid ? "✓ Valid" : "✗ Invalid"}</span>
-                `;
-        documentsList.appendChild(docItem);
+      // Define the document categories and their display names
+      const documentCategories = [
+        { key: "income_level", name: "Income Level" },
+        { key: "current_debt", name: "Current Debt" },
+        { key: "assets_savings", name: "Assets & Savings" },
+        { key: "credit_history", name: "Credit History" },
+        { key: "loan_purpose", name: "Loan Purpose" },
+      ];
+
+      // Create a document section for each category
+      documentCategories.forEach((category) => {
+        if (profile.documents[category.key]) {
+          const docItem = document.createElement("div");
+          docItem.className = "document-item financial-document";
+
+          docItem.innerHTML = `
+            <div class="document-header">${category.name}:</div>
+            <div class="document-content">${
+              profile.documents[category.key]
+            }</div>
+          `;
+
+          documentsList.appendChild(docItem);
+        }
       });
     }
   }
@@ -786,6 +799,45 @@ style.textContent = `
 .result-description p {
   margin: 0;
   color: #e0e0e0;
+}
+
+/* Financial document styles */
+.financial-document {
+  margin-bottom: 12px;
+  background-color: #3a3a3a;
+  border-radius: 6px;
+  padding: 10px 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.document-header {
+  font-weight: bold;
+  color: #64b5f6;
+  margin-bottom: 4px;
+  font-size: 1rem;
+}
+
+.document-content {
+  color: #e0e0e0;
+  line-height: 1.4;
+  font-size: 0.95rem;
+}
+
+.documents {
+  background-color: #3a3a3a;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.documents h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #f5f5f5;
+  border-bottom: 1px solid #4a4a4a;
+  padding-bottom: 0.5rem;
 }
 `;
 document.head.appendChild(style);
