@@ -2,6 +2,11 @@ let currentProfileIndex = 0;
 let decisions = [];
 let profiles = [];
 let officer = {};
+let isMusicPlaying = false;
+let backgroundMusic;
+let buttonSound;
+let successSound;
+let failureSound;
 
 // 默认数据，以防JSON加载失败
 const defaultOfficer = {
@@ -150,6 +155,171 @@ const defaultProfiles = [
   },
 ];
 
+// 初始化音乐和音效控制
+function initializeAudio() {
+  console.log("初始化音频控制...");
+
+  // 获取所有音频元素
+  backgroundMusic = document.getElementById("background-music");
+  buttonSound = document.getElementById("button-sound");
+  successSound = document.getElementById("success-sound");
+  failureSound = document.getElementById("failure-sound");
+
+  const toggleMusicBtn = document.getElementById("toggle-music");
+
+  // 页面加载后立即播放背景音乐，而不是等待游戏开始
+  playBackgroundMusic();
+
+  // 初始化音乐图标状态
+  updateMusicIcon();
+
+  // 添加按钮声音到所有游戏按钮
+  addButtonSounds();
+
+  if (toggleMusicBtn) {
+    toggleMusicBtn.addEventListener("click", function () {
+      if (isMusicPlaying) {
+        pauseBackgroundMusic();
+      } else {
+        playBackgroundMusic();
+      }
+      updateMusicIcon();
+
+      // 播放按钮点击音效
+      playButtonSound();
+    });
+  }
+
+  // 检查音乐文件是否存在并可以播放
+  backgroundMusic.addEventListener("canplaythrough", function () {
+    console.log("音乐文件已加载，可以播放");
+  });
+
+  backgroundMusic.addEventListener("error", function () {
+    console.error("音乐文件加载失败");
+    const musicIcon = document.querySelector(".music-icon");
+    if (musicIcon) {
+      musicIcon.textContent = "🔇";
+      musicIcon.style.color = "#999";
+    }
+  });
+}
+
+// 为所有按钮添加点击音效
+function addButtonSounds() {
+  const allButtons = document.querySelectorAll(".btn");
+
+  allButtons.forEach((button) => {
+    button.addEventListener("click", playButtonSound);
+  });
+}
+
+// 播放按钮点击音效
+function playButtonSound() {
+  if (buttonSound) {
+    // 每次播放前重置音效，确保能够连续播放
+    buttonSound.currentTime = 0;
+    buttonSound.volume = 0.5; // 将音量设置为50%
+    buttonSound.play().catch((error) => {
+      console.error("播放按钮音效失败:", error);
+    });
+  }
+}
+
+// 播放正确决策音效
+function playSuccessSound() {
+  if (successSound) {
+    successSound.currentTime = 0;
+    successSound.volume = 0.7; // 将音量设置为70%
+    successSound.play().catch((error) => {
+      console.error("播放成功音效失败:", error);
+    });
+  }
+}
+
+// 播放错误决策音效
+function playFailureSound() {
+  if (failureSound) {
+    failureSound.currentTime = 0;
+    failureSound.volume = 0.7; // 将音量设置为70%
+    failureSound.play().catch((error) => {
+      console.error("播放失败音效失败:", error);
+    });
+  }
+}
+
+// 停止音效播放
+function stopSoundEffects() {
+  if (successSound) {
+    successSound.pause();
+    successSound.currentTime = 0;
+  }
+  if (failureSound) {
+    failureSound.pause();
+    failureSound.currentTime = 0;
+  }
+}
+
+// 播放背景音乐
+function playBackgroundMusic() {
+  if (backgroundMusic) {
+    backgroundMusic.volume = 0.3; // 将背景音乐音量设置为30%
+    backgroundMusic
+      .play()
+      .then(() => {
+        console.log("背景音乐开始播放");
+        isMusicPlaying = true;
+        updateMusicIcon();
+      })
+      .catch((error) => {
+        console.error("播放音乐失败:", error);
+        // 可能是由于用户未与页面交互导致的自动播放限制
+        const musicIcon = document.querySelector(".music-icon");
+        if (musicIcon) {
+          musicIcon.textContent = "🔈";
+          musicIcon.classList.add("muted");
+        }
+
+        // 添加一次性点击事件，在用户首次点击页面时尝试播放音乐
+        document.addEventListener(
+          "click",
+          function tryPlayMusic() {
+            playBackgroundMusic();
+            document.removeEventListener("click", tryPlayMusic);
+          },
+          { once: true }
+        );
+      });
+  }
+}
+
+// 暂停背景音乐
+function pauseBackgroundMusic() {
+  if (backgroundMusic) {
+    backgroundMusic.pause();
+    console.log("背景音乐已暂停");
+    isMusicPlaying = false;
+  }
+}
+
+// 更新音乐图标
+function updateMusicIcon() {
+  const musicIcon = document.querySelector(".music-icon");
+  if (musicIcon) {
+    // 检查音乐是否正在播放
+    const isActuallyPlaying = !backgroundMusic.paused;
+
+    musicIcon.textContent = isActuallyPlaying ? "🔊" : "🔈";
+    if (isActuallyPlaying) {
+      musicIcon.classList.remove("muted");
+      isMusicPlaying = true;
+    } else {
+      musicIcon.classList.add("muted");
+      isMusicPlaying = false;
+    }
+  }
+}
+
 // Load game data
 async function loadGameData() {
   try {
@@ -180,6 +350,8 @@ async function loadGameData() {
   } finally {
     // 无论成功与否，都初始化游戏
     initializeGame();
+    // 初始化音频控制
+    initializeAudio();
   }
 }
 
@@ -280,6 +452,8 @@ function startGame() {
   if (introScreen) introScreen.classList.remove("active");
   if (profileScreen) profileScreen.classList.add("active");
 
+  // 不需要在这里播放背景音乐，因为页面加载时已经播放
+
   showCurrentProfile();
 }
 
@@ -351,6 +525,14 @@ function showCurrentProfile() {
 function makeDecision(choice) {
   console.log("做出决定:", choice);
   const profile = profiles[currentProfileIndex];
+  const isCorrect = choice === profile.correct_choice;
+
+  // 播放对应的音效
+  if (isCorrect) {
+    playSuccessSound();
+  } else {
+    playFailureSound();
+  }
 
   decisions.push({
     profile: profile,
@@ -365,6 +547,7 @@ function makeDecision(choice) {
 function showImmediateResult(profile, choice) {
   const outcome = getOutcome(choice, profile);
   const choiceText = getChoiceText(choice);
+  const isCorrect = choice === profile.correct_choice;
 
   // 创建结果展示容器
   const resultContainer = document.createElement("div");
@@ -379,8 +562,11 @@ function showImmediateResult(profile, choice) {
           <p>Nationality: ${profile.nationality}</p>
           <p>Occupation: ${profile.occupation}</p>
         </div>
+        <div class="decision-result-icon ${isCorrect ? "correct" : "wrong"}">
+          ${isCorrect ? "✓" : "✗"}
+        </div>
       </div>
-      <div class="outcome-section">
+      <div class="outcome-section ${isCorrect ? "correct" : "wrong"}">
         <h3>你的选择: ${choiceText}</h3>
         <div class="outcome-description">
           <p>${outcome.description}</p>
@@ -399,6 +585,8 @@ function showImmediateResult(profile, choice) {
   // 添加继续按钮事件
   const continueBtn = resultContainer.querySelector(".continue-btn");
   continueBtn.addEventListener("click", function () {
+    stopSoundEffects(); // 停止结果音效播放
+    playButtonSound(); // 播放按钮点击音效
     resultContainer.remove();
     currentProfileIndex++;
     if (currentProfileIndex < profiles.length) {
@@ -559,6 +747,20 @@ function resetGame() {
 
   if (resultsScreen) resultsScreen.classList.remove("active");
   if (introScreen) introScreen.classList.add("active");
+
+  // 重新开始播放背景音乐
+  if (backgroundMusic) {
+    // 如果音乐被暂停了，重新播放
+    if (!isMusicPlaying) {
+      playBackgroundMusic();
+    } else {
+      // 如果音乐正在播放，重新开始
+      backgroundMusic.currentTime = 0;
+    }
+  }
+
+  // 播放按钮音效
+  playButtonSound();
 }
 
 // 页面加载时启动游戏
@@ -596,6 +798,7 @@ style.textContent = `
   display: flex;
   gap: 2rem;
   margin-bottom: 2rem;
+  position: relative;
 }
 
 .immediate-result .profile-header img {
@@ -610,11 +813,53 @@ style.textContent = `
   flex: 1;
 }
 
+/* 决策结果图标 */
+.decision-result-icon {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: bold;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  animation: pop-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0); opacity: 0; }
+  80% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.decision-result-icon.correct {
+  background-color: #27ae60;
+  color: white;
+}
+
+.decision-result-icon.wrong {
+  background-color: #c0392b;
+  color: white;
+}
+
 .immediate-result .outcome-section {
   background-color: #3a3a3a;
   padding: 1.5rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;
+  border-left: 5px solid #4a4a4a;
+}
+
+.immediate-result .outcome-section.correct {
+  border-left-color: #27ae60;
+}
+
+.immediate-result .outcome-section.wrong {
+  border-left-color: #c0392b;
 }
 
 .immediate-result .outcome-section h3 {
@@ -838,6 +1083,77 @@ style.textContent = `
   color: #f5f5f5;
   border-bottom: 1px solid #4a4a4a;
   padding-bottom: 0.5rem;
+}
+
+/* Audio controls styles */
+#audio-controls {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1100;
+}
+
+.audio-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(42, 42, 42, 0.7);
+  border: 2px solid #4a4a4a;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.audio-btn:hover {
+  background-color: rgba(55, 55, 55, 0.9);
+  transform: scale(1.1);
+}
+
+.music-icon {
+  font-size: 20px;
+  color: #fff;
+}
+
+.music-icon.muted {
+  color: #aaa;
+}
+
+/* 添加点击按钮时的视觉反馈 */
+.btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%, -50%);
+  transform-origin: 50% 50%;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0) translate(-50%, -50%);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(40, 40) translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+.btn:active::after {
+  animation: ripple 600ms linear;
 }
 `;
 document.head.appendChild(style);

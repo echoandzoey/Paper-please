@@ -7,6 +7,34 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- 音频元素 -->
+    <audio id="background-music" loop>
+      <source src="music/background.mp3" type="audio/mpeg" />
+      Your browser does not support the audio element.
+    </audio>
+
+    <!-- 按钮点击音效 -->
+    <audio id="button-sound">
+      <source src="music/button-click.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- 正确决策音效 -->
+    <audio id="success-sound">
+      <source src="music/success.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- 错误决策音效 -->
+    <audio id="failure-sound">
+      <source src="music/failure.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- 音量控制 -->
+    <div id="audio-controls">
+      <button id="toggle-music" class="audio-btn">
+        <i class="music-icon">🔊</i>
+      </button>
+    </div>
+
     <div id="game-container">
       <!-- Introduction Screen -->
       <div id="intro-screen" class="screen active">
